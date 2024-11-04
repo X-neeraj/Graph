@@ -5,6 +5,8 @@ export const userTypeDefs = gql`
     id: ID!
     name: String!
     email: String!
+    user_following:[String!]
+    user_followers:[String!]
   }
 
   type Query {
@@ -14,6 +16,7 @@ export const userTypeDefs = gql`
 
   type Mutation {
     createUser(name: String!, email: String!): User!
+    followUser(currUser: String!, followUser: String!): User!
   }
 `;
 

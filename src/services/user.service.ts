@@ -16,6 +16,11 @@ class userService{
         const res=users.map(user => new userDTO(user))
         return res;
     }
+    async followUser(args:any){
+        const {currUser,followUser}=args;
+        const user:any=await userDAO.followUser(currUser,followUser);
+        return new userDTO(user);
+    }
 }
 
 export default new userService();
