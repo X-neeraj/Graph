@@ -5,14 +5,22 @@ import schema from "./src/graphql/schema";
 import { createServer } from "http";
 import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
+import { authMiddleware } from "./src/middleware/authMiddleware";
+import { authRequest } from "./src/middleware/authMiddleware";
 const app:any=express();
 const httpServer = createServer(app);
+
+app.use(authMiddleware);
 
 connectDB()
 
 async function startApolloServer() {
     try {
-        const server = new ApolloServer({ schema });
+        const server = new ApolloServer({ schema,
+            context: ( {req}:{ req: authRequest } ) => ({
+                user: req.user,  
+            }),
+         });
         await server.start();
         server.applyMiddleware({ app });
         console.log(`Apollo Server started at http://localhost:3000${server.graphqlPath}`);
@@ -26,6 +34,7 @@ startApolloServer();
 const wsServer = new WebSocketServer({
   server: httpServer,
   path: "/graphql",
+  
 });
 
 

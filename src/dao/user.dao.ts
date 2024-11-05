@@ -13,6 +13,9 @@ class UserDAO {
     async findUser(id:string){
         return await User.findById(id).exec();
     }
+    async findUserByEmail(email:string){
+        return await User.findOne({email}).exec();
+    }
     
     async followUser(currUser:string,followUser:string){
         const c_u:any=await User.findById(currUser).exec();

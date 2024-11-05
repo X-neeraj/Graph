@@ -4,6 +4,7 @@ export interface userInterface extends Document{
     _id:Types.ObjectId;
     name: string;
     email: string;
+    password: string;
     user_following:any;
     user_followers:any;
     createdAt: Date;
@@ -12,6 +13,7 @@ export interface userInterface extends Document{
 const userSchema: Schema<userInterface> =new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
     user_following: { type: [mongoose.Schema.Types.ObjectId], default:[], ref:'User'},
     user_followers: { type: [mongoose.Schema.Types.ObjectId], default:[], ref:'User'},
   },

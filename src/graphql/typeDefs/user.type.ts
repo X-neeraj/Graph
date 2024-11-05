@@ -5,18 +5,19 @@ export const userTypeDefs = gql`
     id: ID!
     name: String!
     email: String!
-    user_following:[String!]
-    user_followers:[String!]
+    user_following:[ID!]
+    user_followers:[ID!]
   }
 
   type Query {
     getUsers: [User!]!
     getUserById(id: String!): User
+    login(email: String!,password: String!): User!
   }
 
   type Mutation {
-    createUser(name: String!, email: String!): User!
-    followUser(currUser: String!, followUser: String!): User!
+    createUser(name: String!, email: String!,password: String!): User!
+    followUser(currUser: String!, followUser: String!): String
   }
 `;
 
