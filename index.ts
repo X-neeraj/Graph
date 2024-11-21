@@ -6,13 +6,17 @@ import { createServer } from "http";
 import { WebSocketServer } from "ws";
 import { useServer } from "graphql-ws/lib/use/ws";
 import { authMiddleware } from "./src/middleware/authMiddleware";
+
+
 import { authRequest } from "./src/middleware/authMiddleware";
+import { onDisconnectRun } from "./src/graphql/resolvers/notification.resolver";
 const app:any=express();
 const httpServer = createServer(app);
 
 app.use(authMiddleware);
 
 connectDB()
+
 
 async function startApolloServer() {
     try {
@@ -37,8 +41,15 @@ const wsServer = new WebSocketServer({
   
 });
 
-
-useServer({ schema }, wsServer);
+useServer(
+    {
+      schema,
+      onDisconnect: onDisconnectRun
+    },
+    wsServer
+);
+  
+// useServer({ schema }, wsServer);
 
 
 httpServer.listen(3000,()=>{

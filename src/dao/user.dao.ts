@@ -35,7 +35,6 @@ class UserDAO {
         await f_u.save();
         await c_u.save();
         const populatedUser = await User.findById(currUser).populate('user_following').populate('user_followers');
-        console.log(populatedUser)
         return populatedUser;
     }
 }
